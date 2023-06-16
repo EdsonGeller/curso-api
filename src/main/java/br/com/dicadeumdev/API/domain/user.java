@@ -1,4 +1,4 @@
-package br.domain;
+package br.com.dicadeumdev.API.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
