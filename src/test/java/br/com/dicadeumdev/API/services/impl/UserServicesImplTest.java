@@ -96,6 +96,17 @@ public class UserServicesImplTest {
     }
 
     @Test
+    void deleteWithObjNotFound(){
+        when(repository.findById(anyInt())).thenThrow(new ObjNotFoundException("Objeto não encontrado"));
+        try{
+            service.delete(ID);
+        }catch(Exception ex){
+            assertEquals(ObjNotFoundException.class, ex.getClass());
+            assertEquals("Objeto não encontrado", ex.getMessage());
+        }
+    }
+
+    @Test
     void whenFindAllThenReturnAnListOfUsers() {
         when(repository.findAll()).thenReturn(List.of(user));
 
