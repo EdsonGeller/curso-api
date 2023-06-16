@@ -11,6 +11,7 @@ import br.com.dicadeumdev.API.domain.User;
 import br.com.dicadeumdev.API.domain.DTO.UserDTO;
 import br.com.dicadeumdev.API.repositories.UserRepository;
 import br.com.dicadeumdev.API.services.UserServices;
+import br.com.dicadeumdev.API.services.exceptions.DataIntegratyViolationException;
 import br.com.dicadeumdev.API.services.exceptions.ObjNotFoundException;
 @Service
 public class UserServicesImpl implements UserServices {
@@ -33,6 +34,22 @@ public class UserServicesImpl implements UserServices {
 
     @Override
     public User create(UserDTO obj) {
+        findByEmail(obj);
         return repository.save(mapper.map(obj, User.class));
     }
+
+    @Override
+    public User update(UserDTO obj) {
+        findByEmail(obj);
+        return repository.save(mapper.map(obj, User.class));
+    }
+
+    private void findByEmail(UserDTO obj){
+        Optional<User> user = repository.findByEmail(obj.getEmail());
+        if(user.isPresent() && !user.get().getId().equals(obj.getId())){
+            throw new DataIntegratyViolationException("E-mail já cadastrado no sistema");
+        }
+    }
+
+
 }
