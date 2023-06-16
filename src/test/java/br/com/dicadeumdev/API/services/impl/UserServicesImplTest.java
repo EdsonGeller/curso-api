@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +30,8 @@ public class UserServicesImplTest {
     private static final String NAME = "Valdir";
     private static final String EMAIL = "valdir@gmail.com";
     private static final String PASSWORD = "123";
+    private static final int INDEX = 0;
+
 
     @InjectMocks
     private UserServicesImpl service;
@@ -59,7 +62,19 @@ public class UserServicesImplTest {
     }
 
     @Test
-    void testFindAll() {
+    void whenFindAllThenReturnAnListOfUsers() {
+        when(repository.findAll()).thenReturn(List.of(user));
+
+        List<User> response = service.findAll();
+
+        assertNotNull(response);
+        assertEquals(1, response.size());
+        assertEquals(User.class, response.get(INDEX).getClass());
+
+        assertEquals(ID, response.get(INDEX).getId());
+        assertEquals(NAME, response.get(INDEX).getName());
+        assertEquals(EMAIL, response.get(INDEX).getEmail());
+        assertEquals(PASSWORD, response.get(INDEX).getPassword());
 
     }
 
