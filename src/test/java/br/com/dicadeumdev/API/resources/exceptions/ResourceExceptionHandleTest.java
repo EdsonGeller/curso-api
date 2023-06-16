@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import br.com.dicadeumdev.API.services.exceptions.DataIntegratyViolationException;
 import br.com.dicadeumdev.API.services.exceptions.ObjNotFoundException;
 
 
@@ -31,6 +32,15 @@ public class ResourceExceptionHandleTest {
 
     @Test
     void testDataIntegratyViolationException() {
+        ResponseEntity<StandartError> response = exceptionHandle.DataIntegratyViolationException
+        (new DataIntegratyViolationException("E-mail já cadastrado!"), new MockHttpServletRequest());
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(StandartError.class, response.getBody().getClass());
+        assertEquals("E-mail já cadastrado!", response.getBody().getError());
+        assertEquals(400, response.getBody().getStatus());
 
     }
 
