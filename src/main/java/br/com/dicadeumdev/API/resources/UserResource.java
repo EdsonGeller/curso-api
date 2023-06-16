@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.dicadeumdev.API.domain.user;
-import br.com.dicadeumdev.API.services.userServices;
+import br.com.dicadeumdev.API.domain.User;
+import br.com.dicadeumdev.API.services.UserServices;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserResource {
     
     @Autowired
-    private userServices service;
+    private UserServices service;
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<user> findById(@PathVariable Integer id){
+    public ResponseEntity<User> findById(@PathVariable Integer id){
         return ResponseEntity.ok().body(service.findById(id));
     }
 }
